@@ -14,3 +14,4 @@ Los cambios notables se documentarán aquí siguiendo Keep a Changelog y version
   movimientos y transferencias internas.
 - Manejo de errores del contrato, tokens Bearer e idempotencia.
 - Pruebas unitarias, recorrido completo de widgets y smoke test contra MobileLab.
+- Claves de idempotencia UUID v4 estables por intención de transferencia.
