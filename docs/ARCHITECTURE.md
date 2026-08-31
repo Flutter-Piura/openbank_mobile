@@ -48,8 +48,9 @@ presentation ──> application ──> domain
 - `CreateTransfer` impide transferir a la misma cuenta.
 - La presentación valida monto positivo y saldo disponible antes de invocar el
   caso de uso.
-- Cada solicitud envía `Idempotency-Key`; el backend definitivo será la fuente
-  autoritativa para saldo, concurrencia e idempotencia.
+- Cada intención crea un UUID v4 para `Idempotency-Key` y lo reutiliza en sus
+  reintentos; el backend definitivo será la fuente autoritativa para saldo,
+  concurrencia e idempotencia.
 
 ## Flujo de una solicitud
 

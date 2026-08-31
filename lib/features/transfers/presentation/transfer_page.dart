@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:openbank_mobile/core/errors/app_exception.dart';
+import 'package:openbank_mobile/core/identifiers/uuid_v4.dart';
 import 'package:openbank_mobile/features/accounts/domain/account.dart';
 import 'package:openbank_mobile/features/transfers/application/create_transfer.dart';
 import 'package:openbank_mobile/features/transfers/domain/transfer.dart';
@@ -27,6 +28,7 @@ class _TransferPageState extends State<TransferPage> {
   final _referenceController = TextEditingController();
   late String _sourceId;
   late String _destinationId;
+  late final String _idempotencyKey;
   bool _submitting = false;
   String? _error;
 
@@ -34,6 +36,7 @@ class _TransferPageState extends State<TransferPage> {
   void initState() {
     super.initState();
     _sourceId = widget.accounts.first.id;
+    _idempotencyKey = generateUuidV4();
     _destinationId = widget.accounts
         .firstWhere((account) => account.id != _sourceId)
         .id;
@@ -69,8 +72,7 @@ class _TransferPageState extends State<TransferPage> {
         destinationAccountId: _destinationId,
         amount: amount,
         reference: _referenceController.text.trim(),
-        idempotencyKey:
-            'mobile-${DateTime.now().toUtc().microsecondsSinceEpoch}',
+        idempotencyKey: _idempotencyKey,
       );
       if (!mounted) return;
       await _showSuccess(transfer);
