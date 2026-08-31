@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Reporte privado de seguridad
+    url: https://github.com/Flutter-Piura/openbank_mobile/security/advisories/new
+    about: No publiques vulnerabilidades en un issue.
+  - name: Documentación del proyecto
+    url: https://github.com/Flutter-Piura/openbank_docs
+    about: Consulta el plan, las decisiones y las guías generales.
