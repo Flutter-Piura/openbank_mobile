@@ -1,0 +1,72 @@
+schema_version: 1
+project:
+  name: openbank_mobile
+server:
+  host: 127.0.0.1
+  port: 4566
+dashboard:
+  enabled: true
+sandbox:
+  latency: 0
+  error_rate: 0
+auth:
+  enabled: false
+device:
+  auto_detect: true
+endpoints:
+  - path: /v1/auth/login
+    method: POST
+    response:
+      status: 200
+      fixture: auth-session.json
+  - path: /v1/auth/refresh
+    method: POST
+    response:
+      status: 200
+      fixture: auth-session.json
+  - path: /v1/auth/logout
+    method: POST
+    response:
+      status: 204
+  - path: /v1/me
+    method: GET
+    response:
+      status: 200
+      fixture: customer.json
+  - path: /v1/accounts
+    method: GET
+    response:
+      status: 200
+      fixture: accounts.json
+  - path: /v1/accounts/{accountId}
+    method: GET
+    response:
+      status: 200
+      fixture: account.json
+  - path: /v1/accounts/{accountId}/transactions
+    method: GET
+    response:
+      status: 200
+      fixture: transactions.json
+  - path: /v1/transactions/{transactionId}
+    method: GET
+    response:
+      status: 200
+      fixture: transaction.json
+  - path: /v1/transfers
+    method: POST
+    response:
+      status: 201
+      headers:
+        Location: /v1/transfers/a88ee2f2-27b8-43a0-b6c4-3d846e724983
+      fixture: transfer.json
+  - path: /v1/transfers/{transferId}
+    method: GET
+    response:
+      status: 200
+      fixture: transfer.json
+  - path: /health
+    method: GET
+    response:
+      status: 200
+      fixture: health.json

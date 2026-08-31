@@ -15,6 +15,7 @@ Consulta el [plan maestro](https://github.com/Flutter-Piura/openbank_docs/blob/m
 - Flutter 3.44.4 estable.
 - Dart 3.12.2.
 - Android Studio o Xcode para ejecutar en dispositivo/simulador.
+- MobileLab 1.1.0 para usar el backend local (opcional hasta integrar la API real).
 
 ## Inicio rápido
 
@@ -25,7 +26,18 @@ flutter test
 flutter run
 ```
 
-La aplicación contador generada por Flutter se sustituirá durante la fase de fundación móvil.
+Para trabajar sin servidor cloud, inicia el sandbox en otra terminal:
+
+```bash
+mobilelab doctor
+mobilelab start
+```
+
+La API ficticia queda disponible en `http://127.0.0.1:4566`. En Android
+Emulator la aplicación debe usar `http://10.0.2.2:4566`. Consulta
+[`mobilelab/README.md`](mobilelab/README.md) para las credenciales, fixtures y
+escenarios de error. El sandbox sigue el contrato de
+[`openbank_contracts`](https://github.com/Flutter-Piura/openbank_contracts).
 
 ## Arquitectura prevista
 

@@ -1,0 +1,8 @@
+schema_version: 1
+name: OpenAPI POST /v1/auth/login
+expect:
+    - request:
+        method: POST
+        path: /v1/auth/login
+    - response:
+        status: 200

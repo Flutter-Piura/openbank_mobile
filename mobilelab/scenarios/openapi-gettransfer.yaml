@@ -1,0 +1,8 @@
+schema_version: 1
+name: OpenAPI GET /v1/transfers/{transferId}
+expect:
+    - request:
+        method: GET
+        path: /v1/transfers/{transferId}
+    - response:
+        status: 200

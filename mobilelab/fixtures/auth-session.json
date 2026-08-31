@@ -1,0 +1,6 @@
+{
+  "accessToken": "demo-access-token-not-for-production",
+  "refreshToken": "demo-refresh-token-not-for-production",
+  "tokenType": "Bearer",
+  "expiresInSeconds": 900
+}

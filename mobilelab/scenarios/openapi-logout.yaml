@@ -1,0 +1,8 @@
+schema_version: 1
+name: OpenAPI POST /v1/auth/logout
+expect:
+    - request:
+        method: POST
+        path: /v1/auth/logout
+    - response:
+        status: 204

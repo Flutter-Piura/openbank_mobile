@@ -1,0 +1,11 @@
+{
+  "id": "1b27fb57-13d2-4931-861c-c903f7e44c5f",
+  "alias": "Cuenta principal",
+  "maskedNumber": "****4821",
+  "status": "active",
+  "availableBalance": {
+    "minorUnits": 125050,
+    "currency": "PEN"
+  },
+  "createdAt": "2026-01-15T14:30:00Z"
+}

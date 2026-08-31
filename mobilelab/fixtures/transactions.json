@@ -1,0 +1,30 @@
+{
+  "items": [
+    {
+      "id": "c3bf7c60-432a-4245-952e-c303553542c4",
+      "accountId": "1b27fb57-13d2-4931-861c-c903f7e44c5f",
+      "transferId": "a88ee2f2-27b8-43a0-b6c4-3d846e724983",
+      "type": "transfer_debit",
+      "description": "Transferencia a cuenta de ahorro",
+      "amount": {
+        "minorUnits": -10000,
+        "currency": "PEN"
+      },
+      "occurredAt": "2026-08-30T20:15:00Z"
+    },
+    {
+      "id": "56fb078a-7963-4146-8a94-2347cc1a536e",
+      "accountId": "1b27fb57-13d2-4931-861c-c903f7e44c5f",
+      "type": "deposit",
+      "description": "Depósito de demostración",
+      "amount": {
+        "minorUnits": 50000,
+        "currency": "PEN"
+      },
+      "occurredAt": "2026-08-28T15:00:00Z"
+    }
+  ],
+  "pagination": {
+    "nextCursor": null
+  }
+}
