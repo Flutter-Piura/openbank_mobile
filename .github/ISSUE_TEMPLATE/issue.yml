@@ -1,0 +1,48 @@
+name: Propuesta o defecto
+description: Reporta un problema reproducible o propone una mejora para OpenBank Mobile.
+title: "[Issue]: "
+labels:
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: Gracias por contribuir. No incluyas información, credenciales ni cuentas reales.
+  - type: dropdown
+    id: type
+    attributes:
+      label: Tipo
+      options:
+        - Defecto
+        - Nueva funcionalidad
+        - Mejora técnica
+        - Documentación
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Descripción
+      description: Explica el comportamiento actual, el esperado y el valor del cambio.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Pasos o propuesta
+      description: Incluye pasos reproducibles o una solución sugerida.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Versión o commit
+      placeholder: main / v0.x.y / SHA
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Verificación
+      options:
+        - label: Confirmo que no incluí secretos ni datos reales.
+          required: true
+        - label: Busqué issues existentes antes de crear este reporte.
+          required: true
