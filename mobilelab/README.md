@@ -32,3 +32,14 @@ mobilelab doctor
 ```
 
 MobileLab 1.1 no evalúa reglas transaccionales, payloads o headers de idempotencia. Esas invariantes se prueban en `openbank_api`.
+
+## Smoke test del cliente
+
+Con el sandbox iniciado, ejecuta desde la raíz de `openbank_mobile`:
+
+```bash
+dart run tool/mobilelab_smoke.dart
+```
+
+El comando recorre login, perfil, cuentas, movimientos, transferencia y logout
+utilizando las mismas capas que la aplicación Flutter.
