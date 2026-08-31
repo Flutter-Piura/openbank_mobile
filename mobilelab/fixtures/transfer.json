@@ -1,0 +1,14 @@
+{
+  "id": "a88ee2f2-27b8-43a0-b6c4-3d846e724983",
+  "sourceAccountId": "1b27fb57-13d2-4931-861c-c903f7e44c5f",
+  "destinationAccountId": "93ed95bf-37e0-4119-809f-23b30153017d",
+  "amount": {
+    "minorUnits": 10000,
+    "currency": "PEN"
+  },
+  "reference": "Ahorro mensual",
+  "status": "completed",
+  "rejectionCode": null,
+  "createdAt": "2026-08-30T20:15:00Z",
+  "completedAt": "2026-08-30T20:15:01Z"
+}

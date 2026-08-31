@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "id": "1b27fb57-13d2-4931-861c-c903f7e44c5f",
+      "alias": "Cuenta principal",
+      "maskedNumber": "****4821",
+      "status": "active",
+      "availableBalance": {
+        "minorUnits": 125050,
+        "currency": "PEN"
+      }
+    },
+    {
+      "id": "93ed95bf-37e0-4119-809f-23b30153017d",
+      "alias": "Cuenta de ahorro",
+      "maskedNumber": "****9134",
+      "status": "active",
+      "availableBalance": {
+        "minorUnits": 450000,
+        "currency": "PEN"
+      }
+    }
+  ]
+}

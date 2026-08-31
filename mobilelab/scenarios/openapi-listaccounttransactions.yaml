@@ -1,0 +1,8 @@
+schema_version: 1
+name: OpenAPI GET /v1/accounts/{accountId}/transactions
+expect:
+    - request:
+        method: GET
+        path: /v1/accounts/{accountId}/transactions
+    - response:
+        status: 200

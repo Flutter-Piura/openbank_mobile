@@ -1,0 +1,8 @@
+schema_version: 1
+name: OpenAPI GET /v1/me
+expect:
+    - request:
+        method: GET
+        path: /v1/me
+    - response:
+        status: 200

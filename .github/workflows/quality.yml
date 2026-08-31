@@ -34,3 +34,17 @@ jobs:
         run: flutter analyze
       - name: Test
         run: flutter test --coverage
+      - name: Download verified MobileLab
+        env:
+          MOBILELAB_SHA256: 263305e2a0168d01af3334b5a62029e85bf0b319c20d343b35f4b3573459f953
+          MOBILELAB_VERSION: 1.1.0
+        run: |
+          curl --fail --location --silent --show-error \
+            --output "$RUNNER_TEMP/mobilelab" \
+            "https://github.com/GianSandoval5/MobileLab/releases/download/v${MOBILELAB_VERSION}/mobilelab-linux-amd64"
+          echo "${MOBILELAB_SHA256}  $RUNNER_TEMP/mobilelab" | sha256sum --check
+          chmod +x "$RUNNER_TEMP/mobilelab"
+      - name: Validate MobileLab sandbox
+        run: |
+          "$RUNNER_TEMP/mobilelab" doctor
+          "$RUNNER_TEMP/mobilelab" scenario list
