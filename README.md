@@ -6,7 +6,9 @@ Aplicación Flutter de OpenBank, plataforma bancaria educativa y open source de 
 
 ## Estado
 
-El repositorio se encuentra en fase de fundación. El primer MVP incluirá autenticación ficticia, cuentas, movimientos y transferencias internas simuladas.
+El primer incremento funcional incluye autenticación ficticia, resumen de cuentas,
+movimientos y transferencias internas simuladas. La app consume MobileLab en
+local; el backend persistente se incorporará en la siguiente fase.
 
 Consulta el [plan maestro](https://github.com/Flutter-Piura/openbank_docs/blob/main/PLAN_MAESTRO.md) y el [ADR de arquitectura](https://github.com/Flutter-Piura/openbank_docs/blob/main/adr/0001-clean-architecture-contract-first.md).
 
@@ -23,38 +25,56 @@ Consulta el [plan maestro](https://github.com/Flutter-Piura/openbank_docs/blob/m
 flutter pub get
 flutter analyze
 flutter test
-flutter run
 ```
 
-Para trabajar sin servidor cloud, inicia el sandbox en otra terminal:
+Para trabajar sin servidor cloud, inicia el sandbox en una terminal:
 
 ```bash
 mobilelab doctor
 mobilelab start
 ```
 
-La API ficticia queda disponible en `http://127.0.0.1:4566`. En Android
-Emulator la aplicación debe usar `http://10.0.2.2:4566`. Consulta
+Después ejecuta Flutter en otra terminal. iOS Simulator y escritorio usan la
+URL local predeterminada:
+
+```bash
+flutter run
+```
+
+Android Emulator necesita apuntar a la IP especial del host:
+
+```bash
+flutter run --dart-define=OPENBANK_API_URL=http://10.0.2.2:4566
+```
+
+La API ficticia queda disponible en `http://127.0.0.1:4566`. Consulta
 [`mobilelab/README.md`](mobilelab/README.md) para las credenciales, fixtures y
 escenarios de error. El sandbox sigue el contrato de
 [`openbank_contracts`](https://github.com/Flutter-Piura/openbank_contracts).
 
-## Arquitectura prevista
+Para comprobar el recorrido real sin abrir un simulador:
+
+```bash
+dart run tool/mobilelab_smoke.dart
+```
+
+## Arquitectura
 
 ```text
 lib/
-├── app/
-├── core/
-├── shared/
+├── app/                  # composición y tema
+├── core/                 # configuración, red y errores
+├── shared/               # tipos compartidos como Money
 └── features/
     ├── authentication/
     ├── accounts/
-    ├── transactions/
-    ├── transfers/
-    └── profile/
+    └── transfers/
 ```
 
-Cada feature separará dominio, aplicación, infraestructura y presentación. El dominio utilizará Dart puro y no dependerá de Flutter, HTTP o persistencia.
+Cada feature separa dominio, aplicación, infraestructura y presentación. El
+dominio usa Dart puro y no depende de Flutter, HTTP o persistencia. Consulta
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) para conocer la regla de
+dependencias, el flujo de datos y la estrategia de pruebas.
 
 ## Contribuir
 

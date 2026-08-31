@@ -34,6 +34,8 @@ jobs:
         run: flutter analyze
       - name: Test
         run: flutter test --coverage
+      - name: Build Android debug APK
+        run: flutter build apk --debug
       - name: Download verified MobileLab
         env:
           MOBILELAB_SHA256: 263305e2a0168d01af3334b5a62029e85bf0b319c20d343b35f4b3573459f953
@@ -48,3 +50,22 @@ jobs:
         run: |
           "$RUNNER_TEMP/mobilelab" doctor
           "$RUNNER_TEMP/mobilelab" scenario list
+      - name: Smoke test Flutter client against MobileLab
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/mobilelab" start --headless > "$RUNNER_TEMP/mobilelab.log" 2>&1 &
+          mobilelab_pid=$!
+          cleanup() {
+            kill "$mobilelab_pid" 2>/dev/null || true
+            wait "$mobilelab_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:4566/health > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:4566/health > /dev/null
+          dart run tool/mobilelab_smoke.dart
