@@ -6,9 +6,9 @@ Aplicación Flutter de OpenBank, plataforma bancaria educativa y open source de 
 
 ## Estado
 
-El primer incremento funcional incluye autenticación ficticia, resumen de cuentas,
-movimientos y transferencias internas simuladas. La app consume MobileLab en
-local; el backend persistente se incorporará en la siguiente fase.
+El MVP incluye autenticación ficticia, resumen de cuentas, movimientos y
+transferencias internas simuladas. Puede consumir el sandbox MobileLab o la API
+NestJS/PostgreSQL persistente, ambos compatibles con `openbank_contracts` 0.1.0.
 
 Consulta el [plan maestro](https://github.com/Flutter-Piura/openbank_docs/blob/main/PLAN_MAESTRO.md) y el [ADR de arquitectura](https://github.com/Flutter-Piura/openbank_docs/blob/main/adr/0001-clean-architecture-contract-first.md).
 
@@ -17,7 +17,8 @@ Consulta el [plan maestro](https://github.com/Flutter-Piura/openbank_docs/blob/m
 - Flutter 3.44.4 estable.
 - Dart 3.12.2.
 - Android Studio o Xcode para ejecutar en dispositivo/simulador.
-- MobileLab 1.1.0 para usar el backend local (opcional hasta integrar la API real).
+- MobileLab 1.1.0 para trabajar con fixtures sin PostgreSQL (opcional).
+- Docker Desktop para usar el backend persistente (opcional).
 
 ## Inicio rápido
 
@@ -52,10 +53,34 @@ La API ficticia queda disponible en `http://127.0.0.1:4566`. Consulta
 escenarios de error. El sandbox sigue el contrato de
 [`openbank_contracts`](https://github.com/Flutter-Piura/openbank_contracts).
 
+### Backend persistente
+
+Desde el repositorio hermano `openbank_infrastructure`, levanta PostgreSQL,
+migraciones y API:
+
+```bash
+docker compose up --build --wait
+```
+
+En iOS Simulator o escritorio ejecuta:
+
+```bash
+flutter run --dart-define=OPENBANK_API_URL=http://127.0.0.1:3000
+```
+
+En Android Emulator usa `http://10.0.2.2:3000`. Las credenciales de ambos
+backends son `demo@openbank.local` / `OpenBankDemo!2026`.
+
 Para comprobar el recorrido real sin abrir un simulador:
 
 ```bash
 dart run tool/mobilelab_smoke.dart
+```
+
+El mismo recorrido contra la API persistente se ejecuta así:
+
+```bash
+dart -DOPENBANK_API_URL=http://127.0.0.1:3000 run tool/mobilelab_smoke.dart
 ```
 
 ## Arquitectura
