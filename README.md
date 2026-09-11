@@ -125,8 +125,8 @@ La explicación completa está en
 
 ### Requisitos
 
-- Git y una cuenta con acceso a la organización Flutter Piura.
-- GitHub CLI autenticado para clonar repositorios privados.
+- Git. Los repositorios son públicos y no requieren autenticación para
+  clonarlos.
 - Flutter 3.44.4 estable y Dart 3.12.2.
 - Android Studio o Xcode para ejecutar un dispositivo virtual.
 - Docker Desktop para la API persistente, o MobileLab 1.1.0 para el sandbox.
@@ -136,14 +136,13 @@ La explicación completa está en
 En un equipo nuevo:
 
 ~~~bash
-gh auth login
 mkdir Flutter_Piura
 cd Flutter_Piura
-gh repo clone Flutter-Piura/openbank_mobile
-gh repo clone Flutter-Piura/openbank_api
-gh repo clone Flutter-Piura/openbank_contracts
-gh repo clone Flutter-Piura/openbank_infrastructure
-gh repo clone Flutter-Piura/openbank_docs
+git clone https://github.com/Flutter-Piura/openbank_mobile.git
+git clone https://github.com/Flutter-Piura/openbank_api.git
+git clone https://github.com/Flutter-Piura/openbank_contracts.git
+git clone https://github.com/Flutter-Piura/openbank_infrastructure.git
+git clone https://github.com/Flutter-Piura/openbank_docs.git
 ~~~
 
 La estructura resultante debe ser:
