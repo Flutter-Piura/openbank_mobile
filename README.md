@@ -20,7 +20,89 @@ Consulta el [plan maestro](https://github.com/Flutter-Piura/openbank_docs/blob/m
 - MobileLab 1.1.0 para trabajar con fixtures sin PostgreSQL (opcional).
 - Docker Desktop para usar el backend persistente (opcional).
 
-## Inicio rápido
+## Elegir el backend local
+
+Antes de ejecutar Flutter elige exactamente uno de estos backends:
+
+| Backend | Puerto en macOS | URL desde Android Emulator | Uso |
+| --- | ---: | --- | --- |
+| API + PostgreSQL | `3000` | `http://10.0.2.2:3000` | Recomendado para probar persistencia y reglas reales |
+| MobileLab | `4566` | `http://10.0.2.2:4566` | Fixtures, latencia y escenarios de error |
+
+No uses el puerto `4566` si MobileLab no está iniciado. No uses el puerto
+`3000` si el stack de Docker no está levantado.
+
+## Opción A — API persistente con PostgreSQL
+
+Esta es la opción recomendada para recorrer la integración completa.
+
+### 1. Comprueba la estructura del workspace
+
+Los repositorios deben estar en carpetas hermanas:
+
+```text
+Flutter_Piura/
+├── openbank_api/
+├── openbank_infrastructure/
+└── openbank_mobile/
+```
+
+### 2. Abre Docker Desktop
+
+En macOS abre **Docker Desktop** desde Aplicaciones y espera hasta que indique
+que el motor está activo. También puedes abrirlo desde una terminal:
+
+```bash
+open -a Docker
+```
+
+### 3. Levanta PostgreSQL, migraciones y API
+
+Abre una terminal en `openbank_infrastructure`:
+
+```bash
+cd ../openbank_infrastructure
+```
+
+Solo la primera vez, crea tu archivo de variables locales:
+
+```bash
+cp .env.example .env
+```
+
+Construye e inicia todo el stack:
+
+```bash
+docker compose up --build --wait
+```
+
+Comprueba que `postgres` y `api` aparezcan como `healthy`:
+
+```bash
+docker compose ps
+./scripts/smoke.sh
+```
+
+También puedes comprobar directamente la API:
+
+```bash
+curl http://127.0.0.1:3000/health
+```
+
+La respuesta debe contener `"status":"ok"`.
+
+### 4. Abre el emulador o simulador
+
+Inicia Android Emulator desde Android Studio, o abre iOS Simulator desde Xcode.
+Comprueba que Flutter detecta el dispositivo:
+
+```bash
+flutter devices
+```
+
+### 5. Instala dependencias Flutter
+
+En otra terminal, desde `openbank_mobile`:
 
 ```bash
 flutter pub get
@@ -28,60 +110,111 @@ flutter analyze
 flutter test
 ```
 
-Para trabajar sin servidor cloud, inicia el sandbox en una terminal:
+### 6. Ejecuta la aplicación
+
+Android Emulator usa `10.0.2.2` para acceder al equipo anfitrión:
+
+```bash
+flutter run --dart-define=OPENBANK_API_URL=http://10.0.2.2:3000
+```
+
+iOS Simulator y las aplicaciones de escritorio usan `127.0.0.1`:
+
+```bash
+flutter run --dart-define=OPENBANK_API_URL=http://127.0.0.1:3000
+```
+
+Si cambias `OPENBANK_API_URL`, detén la aplicación y ejecuta nuevamente
+`flutter run`. Un hot reload no cambia un `dart-define` ya compilado.
+
+### 7. Inicia sesión
+
+```text
+Correo:     demo@openbank.local
+Contraseña: OpenBankDemo!2026
+```
+
+### 8. Detén el entorno cuando termines
+
+Desde `openbank_infrastructure`, conserva los datos con:
+
+```bash
+docker compose down
+```
+
+Para borrar únicamente el volumen con datos ficticios y comenzar nuevamente:
+
+```bash
+docker compose down --volumes
+```
+
+## Opción B — Sandbox MobileLab
+
+Esta opción no necesita PostgreSQL. Requiere
+[MobileLab 1.1.0](https://github.com/GianSandoval5/MobileLab) instalado y
+disponible en el `PATH`.
+
+### 1. Valida e inicia MobileLab
+
+Desde `openbank_mobile`:
 
 ```bash
 mobilelab doctor
 mobilelab start
 ```
 
-Después ejecuta Flutter en otra terminal. iOS Simulator y escritorio usan la
-URL local predeterminada:
+Mantén MobileLab activo mientras usas la aplicación. Verifica el sandbox desde
+otra terminal:
 
 ```bash
-flutter run
+curl http://127.0.0.1:4566/health
 ```
 
-Android Emulator necesita apuntar a la IP especial del host:
+### 2. Ejecuta Flutter contra MobileLab
+
+En Android Emulator:
 
 ```bash
 flutter run --dart-define=OPENBANK_API_URL=http://10.0.2.2:4566
 ```
 
-La API ficticia queda disponible en `http://127.0.0.1:4566`. Consulta
-[`mobilelab/README.md`](mobilelab/README.md) para las credenciales, fixtures y
-escenarios de error. El sandbox sigue el contrato de
+En iOS Simulator o escritorio, `4566` es la URL predeterminada:
+
+```bash
+flutter run
+```
+
+Consulta [`mobilelab/README.md`](mobilelab/README.md) para conocer fixtures y
+escenarios. El sandbox sigue el contrato de
 [`openbank_contracts`](https://github.com/Flutter-Piura/openbank_contracts).
 
-### Backend persistente
+## Smoke tests sin interfaz gráfica
 
-Desde el repositorio hermano `openbank_infrastructure`, levanta PostgreSQL,
-migraciones y API:
-
-```bash
-docker compose up --build --wait
-```
-
-En iOS Simulator o escritorio ejecuta:
-
-```bash
-flutter run --dart-define=OPENBANK_API_URL=http://127.0.0.1:3000
-```
-
-En Android Emulator usa `http://10.0.2.2:3000`. Las credenciales de ambos
-backends son `demo@openbank.local` / `OpenBankDemo!2026`.
-
-Para comprobar el recorrido real sin abrir un simulador:
+Con MobileLab activo:
 
 ```bash
 dart run tool/mobilelab_smoke.dart
 ```
 
-El mismo recorrido contra la API persistente se ejecuta así:
+Con la API persistente activa:
 
 ```bash
 dart -DOPENBANK_API_URL=http://127.0.0.1:3000 run tool/mobilelab_smoke.dart
 ```
+
+## Solución de problemas de conexión
+
+Si aparece `No se pudo conectar con OpenBank`:
+
+1. Confirma qué backend elegiste: API en `3000` o MobileLab en `4566`.
+2. Comprueba el backend desde macOS con `curl` usando `127.0.0.1`.
+3. En Android Emulator usa `10.0.2.2`, nunca `127.0.0.1`.
+4. Ejecuta `flutter devices` y confirma que el emulador esté conectado.
+5. Detén y recompila Flutter después de cambiar `OPENBANK_API_URL`.
+6. Para la API persistente, revisa `docker compose ps` y
+   `docker compose logs -f api` desde `openbank_infrastructure`.
+7. Si Docker Desktop no responde, reinícialo desde su menú y vuelve a ejecutar
+   `docker compose up --wait`.
 
 ## Arquitectura
 

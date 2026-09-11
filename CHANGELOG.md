@@ -16,3 +16,5 @@ Los cambios notables se documentarán aquí siguiendo Keep a Changelog y version
 - Pruebas unitarias, recorrido completo de widgets y smoke test contra MobileLab.
 - Claves de idempotencia UUID v4 estables por intención de transferencia.
 - Smoke test compatible con MobileLab y con la API PostgreSQL persistente.
+- Guía paso a paso para levantar cada backend y resolver conexiones desde
+  Android Emulator, iOS Simulator y escritorio.
