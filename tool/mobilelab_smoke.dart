@@ -1,4 +1,5 @@
 import 'package:openbank_mobile/app/app_dependencies.dart';
+import 'package:openbank_mobile/core/identifiers/uuid_v4.dart';
 import 'package:openbank_mobile/shared/domain/money.dart';
 
 Future<void> main() async {
@@ -25,15 +26,15 @@ Future<void> main() async {
         minorUnits: 1000,
         currency: source.availableBalance.currency,
       ),
-      reference: 'Smoke test MobileLab',
-      idempotencyKey: 'smoke-${DateTime.now().toUtc().microsecondsSinceEpoch}',
+      reference: 'Smoke test OpenBank',
+      idempotencyKey: generateUuidV4(),
     );
     _require(transfer.status == 'completed', 'transferencia completada');
 
     await dependencies.signOut();
     // ignore: avoid_print
     print(
-      'MobileLab smoke OK: ${dashboard.accounts.length} cuentas, '
+      'OpenBank smoke OK: ${dashboard.accounts.length} cuentas, '
       '${transactions.length} movimientos y transferencia ${transfer.id}.',
     );
   } finally {
