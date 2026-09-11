@@ -37,6 +37,28 @@ void main() {
       findsOneWidget,
     );
 
+    await tester.tap(find.byKey(const ValueKey('more-action')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Perfil de demostración'), findsOneWidget);
+    expect(find.text('Cliente Demo'), findsOneWidget);
+    expect(find.text('demo@openbank.local'), findsOneWidget);
+    expect(find.text('2 cuentas ficticias'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('more-about')));
+    await tester.pumpAndSettle();
+    expect(find.text('OpenBank 0.2.0'), findsOneWidget);
+    expect(
+      find.textContaining('no procesa dinero ni datos bancarios reales'),
+      findsOneWidget,
+    );
+    await tester.tap(find.byKey(const ValueKey('close-about')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('more-refresh')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Hola, Cliente'), findsOneWidget);
+
     await tester.tap(find.text('Cuenta principal'));
     await tester.pumpAndSettle();
 
@@ -63,6 +85,20 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Hola, Cliente'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('more-action')));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byKey(const ValueKey('more-sign-out')),
+      300,
+    );
+    await tester.tap(find.byKey(const ValueKey('more-sign-out')));
+    await tester.pumpAndSettle();
+    expect(find.text('¿Cerrar sesión?'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('confirm-sign-out')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ingresar a la demo'), findsOneWidget);
   });
 }
 

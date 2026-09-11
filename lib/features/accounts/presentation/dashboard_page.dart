@@ -5,6 +5,7 @@ import 'package:openbank_mobile/features/accounts/application/load_transactions.
 import 'package:openbank_mobile/features/accounts/domain/account.dart';
 import 'package:openbank_mobile/features/accounts/presentation/account_detail_page.dart';
 import 'package:openbank_mobile/features/authentication/application/sign_out.dart';
+import 'package:openbank_mobile/features/profile/presentation/more_page.dart';
 import 'package:openbank_mobile/features/transfers/application/create_transfer.dart';
 import 'package:openbank_mobile/features/transfers/presentation/transfer_page.dart';
 import 'package:openbank_mobile/shared/domain/money.dart';
@@ -95,6 +96,18 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
+  Future<void> _openMore(DashboardSnapshot snapshot) async {
+    final action = await Navigator.of(context).push<MoreAction>(
+      MaterialPageRoute(
+        builder: (_) =>
+            MorePage(customer: snapshot.customer, accounts: snapshot.accounts),
+      ),
+    );
+    if (!mounted) return;
+    if (action == MoreAction.refresh) await _load();
+    if (action == MoreAction.signOut) await _signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,6 +173,7 @@ class _DashboardPageState extends State<DashboardPage> {
           _QuickActions(
             canTransfer: accounts.length > 1,
             onTransfer: () => _openTransfer(accounts),
+            onMore: () => _openMore(snapshot),
           ),
           const SizedBox(height: 28),
           Text(
@@ -249,10 +263,15 @@ class _TotalBalanceCard extends StatelessWidget {
 }
 
 class _QuickActions extends StatelessWidget {
-  const _QuickActions({required this.canTransfer, required this.onTransfer});
+  const _QuickActions({
+    required this.canTransfer,
+    required this.onTransfer,
+    required this.onMore,
+  });
 
   final bool canTransfer;
   final VoidCallback onTransfer;
+  final VoidCallback onMore;
 
   @override
   Widget build(BuildContext context) {
@@ -268,11 +287,8 @@ class _QuickActions extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: OutlinedButton.icon(
-            onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Más funciones llegarán en la siguiente fase.'),
-              ),
-            ),
+            key: const ValueKey('more-action'),
+            onPressed: onMore,
             icon: const Icon(Icons.more_horiz_rounded),
             label: const Text('Más'),
           ),

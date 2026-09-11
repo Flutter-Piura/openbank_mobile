@@ -6,9 +6,11 @@ Aplicación Flutter de OpenBank, plataforma bancaria educativa y open source de 
 
 ## Estado
 
-El MVP incluye autenticación ficticia, resumen de cuentas, movimientos y
-transferencias internas simuladas. Puede consumir el sandbox MobileLab o la API
-NestJS/PostgreSQL persistente, ambos compatibles con `openbank_contracts` 0.1.0.
+El MVP incluye autenticación ficticia, resumen de cuentas, movimientos,
+transferencias internas simuladas y una sección `Más` con perfil demo,
+actualización de datos, información del proyecto y cierre de sesión confirmado.
+Puede consumir el sandbox MobileLab o la API NestJS/PostgreSQL persistente,
+ambos compatibles con `openbank_contracts` 0.1.0.
 
 Consulta el [plan maestro](https://github.com/Flutter-Piura/openbank_docs/blob/main/PLAN_MAESTRO.md) y el [ADR de arquitectura](https://github.com/Flutter-Piura/openbank_docs/blob/main/adr/0001-clean-architecture-contract-first.md).
 

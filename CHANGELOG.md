@@ -4,6 +4,18 @@ Los cambios notables se documentarán aquí siguiendo Keep a Changelog y version
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-10
+
+### Added
+
+- Pantalla `Más` funcional con perfil demo, resumen de cuentas, actualización,
+  información educativa y cierre de sesión confirmado.
+- Cobertura del nuevo recorrido en las pruebas de widgets.
+- Guía paso a paso para levantar cada backend y resolver conexiones desde
+  Android Emulator, iOS Simulator y escritorio.
+
+## [0.1.0] - 2026-09-10
+
 ### Added
 
 - Scaffold inicial de Flutter.
@@ -16,5 +28,3 @@ Los cambios notables se documentarán aquí siguiendo Keep a Changelog y version
 - Pruebas unitarias, recorrido completo de widgets y smoke test contra MobileLab.
 - Claves de idempotencia UUID v4 estables por intención de transferencia.
 - Smoke test compatible con MobileLab y con la API PostgreSQL persistente.
-- Guía paso a paso para levantar cada backend y resolver conexiones desde
-  Android Emulator, iOS Simulator y escritorio.
