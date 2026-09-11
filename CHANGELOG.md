@@ -4,6 +4,15 @@ Los cambios notables se documentarán aquí siguiendo Keep a Changelog y version
 
 ## [Unreleased]
 
+### Added
+
+- Identidad visual original de OpenBank y guía de uso de marca.
+
+### Changed
+
+- README renovado con presentación profesional, navegación, badges,
+  arquitectura y restauración completa del workspace multirepo.
+
 ## [0.2.0] - 2026-09-10
 
 ### Added
